@@ -57,6 +57,7 @@ func reverseProxyHandler(upstream *url.URL) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		u := *upstream
 		u.Path = r.URL.Path
+		u.RawQuery = r.URL.Query().Encode()
 		r.URL = &u
 		r.Host = u.Host
 		curl, err := curlize.Curlize(r)
