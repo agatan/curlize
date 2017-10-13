@@ -34,7 +34,9 @@ func Curlize(r *http.Request) (Command, error) {
 		if !utf8.Valid(body) {
 			return nil, ErrNonUTF8Body
 		}
-		command = append(command, "-d", string(body))
+		if len(body) != 0 {
+			command = append(command, "-d", string(body))
+		}
 	}
 
 	var keys []string
