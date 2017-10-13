@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 
@@ -8,7 +9,17 @@ import (
 	"github.com/agatan/groxy"
 )
 
+type options struct {
+	address string
+}
+
 func main() {
+	var op options
+
+	flag.StringVar(&op.address, "addr", ":8080", "listening address")
+
+	flag.Parse()
+
 	proxy := &groxy.ProxyServer{
 		HTTPSAction: groxy.HTTPSActionMITM,
 	}
@@ -24,7 +35,7 @@ func main() {
 		}
 	})
 
-	if err := http.ListenAndServe(":8080", proxy); err != nil {
+	if err := http.ListenAndServe(op.address, proxy); err != nil {
 		panic(err)
 	}
 }
