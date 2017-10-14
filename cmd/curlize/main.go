@@ -2,10 +2,12 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
 
 	"github.com/agatan/curlize"
 	"github.com/agatan/groxy"
@@ -31,9 +33,9 @@ func main() {
 		return func(r *http.Request) (*http.Response, error) {
 			curl, err := curlize.Curlize(r)
 			if err != nil {
-				log.Println(err)
+				fmt.Fprintln(os.Stderr, err)
 			} else {
-				log.Println(curl.String())
+				fmt.Println(curl.String())
 			}
 			return h(r)
 		}
