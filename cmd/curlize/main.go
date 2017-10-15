@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -64,9 +63,9 @@ func reverseProxyHandler(upstream *url.URL) http.Handler {
 		r.Host = u.Host
 		curl, err := curlize.Curlize(r)
 		if err != nil {
-			log.Println(err)
+			fmt.Fprintln(os.Stderr, err)
 		} else {
-			log.Println(curl.String())
+			fmt.Println(curl.String())
 		}
 		reverseProxy.ServeHTTP(w, r)
 	})
